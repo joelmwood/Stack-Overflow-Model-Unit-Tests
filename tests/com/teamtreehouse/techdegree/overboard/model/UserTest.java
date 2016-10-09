@@ -36,6 +36,7 @@ public class UserTest {
 
     }
 
+    //Test ensures that questioner reputation increases if a question is up-voted
     @Test
     public void questionerRepIncreasesIfQuestionIsUpvoted() throws Exception {
         answerer.upVote(question);
@@ -43,6 +44,7 @@ public class UserTest {
         assertEquals(5, questioner.getReputation());
     }
 
+    //Test ensures that answerer reputation increases if answer is up-voted
     @Test
     public void answererRepIncreasesIfAnswerIsUpvoted() throws Exception {
         questioner.upVote(answer);
@@ -50,6 +52,7 @@ public class UserTest {
         assertEquals(10, answerer.getReputation());
     }
 
+    //Test ensures that answerer reputation increases if answer is accepted
     @Test
     public void acceptedAnswerIncreasesRep() throws Exception {
         questioner.acceptAnswer(answer);
@@ -57,33 +60,42 @@ public class UserTest {
         assertEquals(15, answerer.getReputation());
     }
 
+    //Test ensures that questioner cannot up-vote the question
     @Test(expected = VotingException.class)
     public void originalQuestionerVotingQuestionUpNotAllowed() throws Exception {
         questioner.upVote(question);
     }
 
+    //Test ensure that questioner cannot down-vote the question
     @Test
     public void originalQuestionerVotingQuestionDownNotAllowed() throws Exception {
         questioner.downVote(question);
     }
 
+    //Test ensures that questioner cannot up-vote answers
     @Test
     public void originalQuestionerVotingAnswerUpNotAllowed() throws Exception {
         questioner.upVote(answer);
     }
 
+    //Test ensure that questioner cannot down-vote answer
     @Test
     public void originalQuestionerVotingAnswerDownNotAllowed() throws Exception {
         questioner.downVote(answer);
     }
 
+    //Test ensures that only questioner can accept an answer
     @Test(expected = AnswerAcceptanceException.class)
     public void onlyOriginalQuestionerCanAcceptAnswer() throws Exception {
         answerer.acceptAnswer(answer);
     }
 
-    //Extra code found in getReputation method not requested to be tested,
-    // but written for "Exceeds" rating grade
+    /*----------------------------------------------------------------------------------------------
+    The following test were based on code found in getReputation
+    method not requested to be tested, but written for "Exceeds" rating grade
+    ------------------------------------------------------------------------------------------------*/
+
+    //Test ensures that down-voting costs one reputation point
     @Test
     public void downVotingCostsOneRepPointForAnswerer() throws Exception {
         answerer.downVote(answer);
@@ -91,6 +103,7 @@ public class UserTest {
         assertEquals("Answer down-voted", -1, answerer.getReputation());
     }
 
+    //Test ensures that users with no reputation have zero points
     @Test
     public void userWithNoUpvotesReturns0Reputation() throws Exception {
         assertEquals(0, questioner.getReputation());
